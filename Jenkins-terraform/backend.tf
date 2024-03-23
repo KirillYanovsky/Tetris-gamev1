@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "mario123bucket" # Replace with your actual S3 bucket name
-    key    = "Jenkins/terraform.tfstate"
-    region = "ap-south-1"
+    bucket = "300732800381-tfstate" # Replace with your actual S3 bucket name
+    key    = "Medium-Jenkins/terraform.tfstate"
+    region = "eu-central-1"
   }
 }

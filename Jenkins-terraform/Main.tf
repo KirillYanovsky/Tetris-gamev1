@@ -1,5 +1,5 @@
 resource "aws_iam_role" "example_role" {
-  name = "Jenkins-terraform"
+  name               = "Jenkins-terraform"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -57,10 +57,14 @@ resource "aws_security_group" "Jenkins-sg" {
   }
 }
 
+resource "aws_key_pair" "deployer" {
+  key_name   = "deployer-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChaSzOLeZBHkFgdnwRxd7jNznM9Futrf6/Ck7r3B/qBihSDiRjHKuPBKLm7slB5lgwN4EtJxRKW5euedMICVVV7LFczjkoM0tvKeXefsXqmvMt+P9TCDpLCmUNeg3XxYBLt/mjpIda+IWRXFs+WfhRweIBrSYiWlj4GYo+RQpTVUNrRUTtVg86z6rFzAPsvkEMKTqIAjGsu2Atjno6vFBVLkAJQPPw0mEqUG0UNMeOYUu1pG4AXLJ6AIRE/U0G/pQvevk3vY85osV5Iw6p8AKSo/YF354E8GRbLxLEg9Vf0lUVOMtiCYFBEK7f6GLPJD2ZBe5XZZzxTuG+Qhmd/pAzPE7V9faoMpD0l/CIr2E0Utj0LKDrfiJt55PZJbP7PiwPCDMf/cdRWI3dmF+BFjAz6eONA3PyZSs9BfkPHTJGfU0SA7+ebqIvgxvEaWcCEFvVdAlMrqQSxQtxenw1Nr/5gP7Y/RJ81h1LFt9QJC62wTuzSDRu3EtcQxRTvTpYDN0= user@Users-MBP.lan"
+}
 resource "aws_instance" "web" {
-  ami                    = "ami-03f4878755434977f"
-  instance_type          = "t2.large"
-  key_name               = "Argo key"
+  ami                    = "ami-023adaba598e661ac"
+  instance_type          = "t2.medium"
+  key_name               = "deployer-key"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
   user_data              = templatefile("./install_jenkins.sh", {})
   iam_instance_profile   = aws_iam_instance_profile.example_profile.name
